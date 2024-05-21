@@ -1,0 +1,122 @@
+[gd_scene load_steps=4 format=3 uid="uid://dn56hcbavqube"]
+
+[ext_resource type="Script" path="res://scenes/UI_scenes/lobby_menu/multiplayer_lobby.gd" id="1_84gg5"]
+[ext_resource type="Script" path="res://scenes/UI_scenes/lobby_menu/Control.gd" id="2_oo1ne"]
+[ext_resource type="PackedScene" uid="uid://borv4gmcqi7gd" path="res://scenes/UI_scenes/lobby_menu/server_info.tscn" id="3_q8aqm"]
+
+[node name="multiplayer_lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_84gg5")
+
+[node name="host" type="Button" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 192.0
+offset_right = 320.0
+offset_bottom = 256.0
+text = "Host"
+
+[node name="join" type="Button" parent="."]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 192.0
+offset_right = 704.0
+offset_bottom = 256.0
+text = "Join"
+
+[node name="start" type="Button" parent="."]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 192.0
+offset_right = 1024.0
+offset_bottom = 256.0
+text = "Start Game"
+
+[node name="username" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 96.0
+offset_right = 744.0
+offset_bottom = 127.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 56.0
+offset_right = 493.0
+offset_bottom = 82.0
+text = "Username:"
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 184.0
+offset_bottom = 96.0
+script = ExtResource("2_oo1ne")
+serverInfo = ExtResource("3_q8aqm")
+
+[node name="BroadcastTimer" type="Timer" parent="Control"]
+wait_time = 0.5
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 40.0
+offset_right = 1064.0
+offset_bottom = 96.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 280.0
+offset_right = 1024.0
+offset_bottom = 608.0
+
+[node name="Titles" type="HBoxContainer" parent="Control/Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 880.0
+offset_bottom = 40.0
+
+[node name="IP" type="Label" parent="Control/Panel/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Host Name"
+
+[node name="name" type="Label" parent="Control/Panel/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP Address"
+
+[node name="PlayerCount" type="Label" parent="Control/Panel/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Players"
+
+[node name="Join" type="Label" parent="Control/Panel/Titles"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 880.0
+offset_bottom = 312.0
+
+[node name="ipadd" type="Label" parent="."]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 88.0
+text = "Ip"
+
+[connection signal="button_down" from="host" to="." method="_on_host_button_down"]
+[connection signal="button_down" from="join" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="start" to="." method="_on_start_button_down"]
+[connection signal="timeout" from="Control/BroadcastTimer" to="Control" method="_on_broadcast_timer_timeout"]

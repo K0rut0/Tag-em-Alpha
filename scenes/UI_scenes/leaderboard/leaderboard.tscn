@@ -1,0 +1,95 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvrhox0avgtyd"]
+
+[ext_resource type="PackedScene" uid="uid://dk3ggp075lfky" path="res://scenes/UI_scenes/leaderboard/leaderboard_item.tscn" id="1_fj5x1"]
+
+[sub_resource type="GDScript" id="GDScript_yjxfg"]
+script/source = "extends VBoxContainer
+
+@export var ranking : PackedScene
+var players = {}
+var rankings = []
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	for p in GameManager.Players:
+		rankings.push_back(GameManager.Players[p])
+		if(!players.has(p)):
+			players[p] = {
+				\"id\": p
+			}
+	sortRankings()
+	pass # Replace with function body.
+
+func sortRankings():
+	for p in GameManager.Players:
+		for pl in rankings:
+			if p == pl.id:
+				pl.score = GameManager.Players[p].score
+	rankings.sort_custom(func(a, b): return a.score > b.score)
+	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+
+	pass
+
+
+
+func _on_up_timer_timeout():
+	sortRankings()
+	for pl in players:
+		if($\".\".has_node(str(pl))):
+			var n = $\".\".get_node(str(pl))
+			if(n != null):
+				remove_child(n)
+	var index = 1
+	for p in rankings:
+		
+		var cur = ranking.instantiate()
+		cur.name = str(p.id)
+		cur.get_node(\"rank\").text = str(index)
+		cur.get_node(\"name\").text = p.name
+		cur.get_node(\"score\").text = str(p.score)
+		$\".\".add_child(cur)
+		index+=1
+	$upTimer.start(3)
+	pass # Replace with function body.
+"
+
+[node name="VBoxContainer" type="VBoxContainer"]
+offset_right = 728.0
+offset_bottom = 128.0
+script = SubResource("GDScript_yjxfg")
+ranking = ExtResource("1_fj5x1")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="prank" type="Label" parent="HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Rank"
+horizontal_alignment = 1
+
+[node name="pname" type="Label" parent="HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Player Name"
+horizontal_alignment = 1
+
+[node name="pscore" type="Label" parent="HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Score"
+horizontal_alignment = 1
+
+[node name="upTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="upTimer" to="." method="_on_up_timer_timeout"]

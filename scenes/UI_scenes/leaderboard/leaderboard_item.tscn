@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dk3ggp075lfky"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 592.0
+offset_bottom = 37.0
+
+[node name="rank" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Rank"
+horizontal_alignment = 1
+
+[node name="name" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "PlayerName"
+horizontal_alignment = 1
+
+[node name="score" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Score"
+horizontal_alignment = 1
