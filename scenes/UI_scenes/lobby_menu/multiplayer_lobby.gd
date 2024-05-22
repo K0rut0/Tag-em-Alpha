@@ -4,6 +4,7 @@ extends Control
 @export var port = 35000
 var peer
 var addresses = []
+var sprite = "male"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("ready")
@@ -25,18 +26,18 @@ func _process(_delta):
 
 
 @rpc("any_peer")
-func send_player_info(username, ids):
+func send_player_info(username, ids, sp):
 	if !GameManager.Players.has(ids):
 		GameManager.Players[ids] = {
 			"id": ids,
 			"name": username,
 			"is_it": false,
-			"sprites": "male",
+			"sprites": sp,
 			"score": 0
 		}
 	if multiplayer.is_server():
 		for i in GameManager.Players:
-			send_player_info.rpc(GameManager.Players[i].name, i)
+			send_player_info.rpc(GameManager.Players[i].name, i, sprite)
 
 @rpc("any_peer", "call_local")
 func start_game():
@@ -48,17 +49,14 @@ func start_game():
 		PlayerArr.sort_custom(func(a, b): return a.id < b.id)
 		var it = randi_range(0, PlayerArr.size()-1)
 		GameManager.Players[PlayerArr[it].id].is_it = true
-		syncInitState(GameManager.Players)
+		syncInitState.rpc(GameManager.Players)
 	var scene = load("res://scenes/level_scenes/basic_map/basic_map.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	self.hide()
 
 @rpc("authority")
 func syncInitState(gm):
-	for p in gm:
-		for pl in GameManager.Players:
-			if(p == pl):
-				GameManager.Players[pl].is_it = gm[pl].is_it
+	GameManager.Players = gm
 	print("synced")
 	print(GameManager.Players)
 	if(multiplayer.is_server()):
@@ -77,7 +75,7 @@ func peer_disconnected(id):
 
 func connected_to_server():
 	print("Connected to Server")
-	send_player_info.rpc_id(1, $username.text ,multiplayer.get_unique_id())
+	send_player_info.rpc_id(1, $username.text ,multiplayer.get_unique_id(), sprite)
 func connection_failed():
 	print("Could not connect")
 
@@ -94,7 +92,7 @@ func hostGame():
 
 func _on_host_button_down():
 	hostGame()
-	send_player_info($username.text, multiplayer.get_unique_id())
+	send_player_info($username.text, multiplayer.get_unique_id(), sprite)
 	
 	$Control.setUpBroadCast($username.text + "'s server")
 	pass # Replace with function body.
@@ -106,6 +104,8 @@ func _on_join_button_down():
 
 	
 func JoinByIP(ip):
+	if(!multiplayer.is_server()):
+		send_player_info.rpc_id(1, $username.text ,multiplayer.get_unique_id(), sprite)
 	address = ip
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, port)
@@ -120,4 +120,14 @@ func _on_start_button_down():
 func _on_back_button_down():
 	print("wow")
 	get_tree().change_scene_to_file("res://scenes/UI_scenes/main_menu/main_menu.tscn")
+	pass # Replace with function body.
+
+
+func _on_male_button_down():
+	sprite = "male"
+	pass # Replace with function body.
+
+
+func _on_female_button_down():
+	sprite = "female"
 	pass # Replace with function body.

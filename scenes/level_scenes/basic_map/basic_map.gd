@@ -20,9 +20,10 @@ func _ready():
 	PlayerArr.sort_custom(func(a, b): return a.id < b.id)
 	
 	for player in PlayerArr:
-		var currentPlayer = PlayerScene.instantiate().duplicate()
+		var currentPlayer = PlayerScene.instantiate() as CharacterBody2D
 		currentPlayer.name = str(player.id)
 		currentPlayer.find_child("playername").text = player.name
+		
 		add_child(currentPlayer)
 		
 		#loop to spawn players in node
@@ -31,6 +32,7 @@ func _ready():
 				currentPlayer.global_position = spawn.global_position
 				print(str(index) + "was spawned: " + currentPlayer.name)
 		index+=1
+	
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

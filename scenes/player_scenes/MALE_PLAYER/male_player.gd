@@ -11,16 +11,25 @@ var player_speed = 500
 @onready var lb = $Camera2D/VBoxContainer
 var stamina = 50
 @export var can_tag = true
+var hold = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	handle_animations(Vector2(0, 1))
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 	
 	pass # Replace with function body.
-
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if(hold == 0):
+		if(GameManager.Players[int(str(self.name))].sprites == "female"):
+			var sprite = get_node("Sprite2D")
+			sprite.texture = preload("res://assets/player_assets/FEMALE_CHAR/GIRL CHARacter.png")
+		else:
+			var sprite = get_node("Sprite2D")
+			sprite.texture = preload("res://assets/player_assets/MALE_CHAR/Main_Char_Animations.png")
+		hold+=1
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
 		var curId = multiplayer.get_unique_id()
 		$Camera2D.make_current()
@@ -131,6 +140,7 @@ func sprint(is_sprinting):
 
 func _on_col_timer_timeout():
 	$Area2D/CollisionShape2D.set_deferred("disabled", false)
+	
 	pass # Replace with function body.
 
 
