@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dn56hcbavqube"]
+[gd_scene load_steps=10 format=3 uid="uid://dn56hcbavqube"]
 
 [ext_resource type="Script" path="res://scenes/UI_scenes/lobby_menu/multiplayer_lobby.gd" id="1_84gg5"]
+[ext_resource type="Texture2D" uid="uid://cinytmjy2vwdc" path="res://assets/objects/menu_bg.png" id="2_6go8h"]
 [ext_resource type="Script" path="res://scenes/UI_scenes/lobby_menu/Control.gd" id="2_oo1ne"]
 [ext_resource type="PackedScene" uid="uid://borv4gmcqi7gd" path="res://scenes/UI_scenes/lobby_menu/server_info.tscn" id="3_q8aqm"]
+[ext_resource type="Theme" uid="uid://ccv006hmeldry" path="res://assets/Default.tres" id="3_ulgph"]
+[ext_resource type="Texture2D" uid="uid://cop6w5ml78oji" path="res://assets/objects/ui/back.png" id="5_84lg0"]
+[ext_resource type="Texture2D" uid="uid://cmkw43csov3uj" path="res://assets/objects/ui/female.png" id="5_g7esa"]
+[ext_resource type="Texture2D" uid="uid://civeu04wwwkx8" path="res://assets/objects/ui/male.png" id="6_u3xcm"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_5p84g"]
 
 [node name="multiplayer_lobby" type="Control"]
 layout_mode = 3
@@ -13,43 +20,51 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_84gg5")
 
+[node name="MenuBg" type="Sprite2D" parent="."]
+modulate = Color(0.301961, 0.301961, 0.301961, 1)
+position = Vector2(640.5, 358.5)
+scale = Vector2(0.669271, 0.669444)
+texture = ExtResource("2_6go8h")
+
 [node name="host" type="Button" parent="."]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 192.0
-offset_right = 320.0
+offset_right = 283.0
 offset_bottom = 256.0
 text = "Host"
 
 [node name="join" type="Button" parent="."]
 layout_mode = 0
-offset_left = 448.0
+offset_left = 314.0
 offset_top = 192.0
-offset_right = 704.0
+offset_right = 467.0
 offset_bottom = 256.0
 text = "Join"
 
 [node name="start" type="Button" parent="."]
 layout_mode = 0
 offset_left = 832.0
-offset_top = 192.0
+offset_top = 128.0
 offset_right = 1024.0
 offset_bottom = 256.0
-text = "Start Game"
+text = "Start
+Game"
 
 [node name="username" type="LineEdit" parent="."]
 layout_mode = 0
-offset_left = 408.0
-offset_top = 96.0
-offset_right = 744.0
-offset_bottom = 127.0
+offset_left = 130.0
+offset_top = 133.0
+offset_right = 466.0
+offset_bottom = 164.0
+placeholder_text = "Player"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 408.0
-offset_top = 56.0
-offset_right = 493.0
-offset_bottom = 82.0
+offset_left = 130.0
+offset_top = 106.0
+offset_right = 222.0
+offset_bottom = 132.0
 text = "Username:"
 
 [node name="Control" type="Control" parent="."]
@@ -64,10 +79,11 @@ wait_time = 0.5
 
 [node name="Label2" type="Label" parent="Control"]
 layout_mode = 0
-offset_left = 896.0
-offset_top = 40.0
-offset_right = 1064.0
-offset_bottom = 96.0
+offset_left = 862.0
+offset_top = 22.0
+offset_right = 1260.0
+offset_bottom = 78.0
+horizontal_alignment = 2
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 0
@@ -102,6 +118,7 @@ text = "Players"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Join"
+horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
 layout_mode = 0
@@ -112,11 +129,48 @@ offset_bottom = 312.0
 
 [node name="ipadd" type="Label" parent="."]
 layout_mode = 0
-offset_right = 240.0
-offset_bottom = 88.0
+offset_left = 18.0
+offset_top = 688.0
+offset_right = 258.0
+offset_bottom = 776.0
 text = "Ip"
+
+[node name="female" type="Button" parent="."]
+offset_left = 486.0
+offset_top = 192.0
+offset_right = 554.0
+offset_bottom = 256.0
+theme = ExtResource("3_ulgph")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_5p84g")
+icon = ExtResource("5_g7esa")
+icon_alignment = 1
+expand_icon = true
+
+[node name="male" type="Button" parent="."]
+layout_mode = 0
+offset_left = 486.0
+offset_top = 116.0
+offset_right = 554.0
+offset_bottom = 180.0
+theme = ExtResource("3_ulgph")
+toggle_mode = true
+keep_pressed_outside = true
+button_group = SubResource("ButtonGroup_5p84g")
+icon = ExtResource("6_u3xcm")
+expand_icon = true
+
+[node name="back" type="Button" parent="."]
+offset_left = 21.0
+offset_top = 19.0
+offset_right = 71.0
+offset_bottom = 69.0
+theme = ExtResource("3_ulgph")
+icon = ExtResource("5_84lg0")
+expand_icon = true
 
 [connection signal="button_down" from="host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="join" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="start" to="." method="_on_start_button_down"]
 [connection signal="timeout" from="Control/BroadcastTimer" to="Control" method="_on_broadcast_timer_timeout"]
+[connection signal="button_down" from="back" to="." method="_on_back_button_down"]

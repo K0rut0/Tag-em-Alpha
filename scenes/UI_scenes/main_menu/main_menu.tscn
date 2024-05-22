@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcoocu6cdrddw"]
+[gd_scene load_steps=4 format=3 uid="uid://bcoocu6cdrddw"]
 
 [ext_resource type="Script" path="res://scenes/UI_scenes/main_menu/main_menu.gd" id="1_65gd7"]
+[ext_resource type="Texture2D" uid="uid://cinytmjy2vwdc" path="res://assets/objects/menu_bg.png" id="2_qcfep"]
+[ext_resource type="Theme" uid="uid://ccv006hmeldry" path="res://assets/Default.tres" id="3_wsna7"]
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
@@ -13,20 +15,28 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_65gd7")
 
+[node name="MenuBg" type="Sprite2D" parent="."]
+show_behind_parent = true
+position = Vector2(640.5, 358.5)
+scale = Vector2(0.669271, 0.669444)
+texture = ExtResource("2_qcfep")
+
 [node name="start" type="Button" parent="."]
 layout_mode = 0
-offset_left = 448.0
-offset_top = 192.0
-offset_right = 704.0
-offset_bottom = 256.0
+offset_left = 912.0
+offset_top = 406.0
+offset_right = 1168.0
+offset_bottom = 502.0
+theme = ExtResource("3_wsna7")
 text = "Start"
 
 [node name="quit" type="Button" parent="."]
 layout_mode = 0
-offset_left = 448.0
-offset_top = 384.0
-offset_right = 704.0
-offset_bottom = 448.0
+offset_left = 835.0
+offset_top = 543.0
+offset_right = 1091.0
+offset_bottom = 635.0
+theme = ExtResource("3_wsna7")
 text = "Quit
 "
 
